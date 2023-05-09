@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "230473503843",
+    "project_id": "wearproj-980b4",
+    "storage_bucket": "wearproj-980b4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230473503843:android:6c8cb1be06dcfd3ee19456",
+        "android_client_info": {
+          "package_name": "com.example.wearprojs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230473503843-akdjj25kij53nqn4u45vd2kjfjfq61bt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDT_X_rpjBNMiazVGV2-4lFuaHbYM6AKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230473503843-akdjj25kij53nqn4u45vd2kjfjfq61bt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

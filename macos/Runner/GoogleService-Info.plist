@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>230473503843-pei44si8hfgj9n3ht30hp875cjlbiqbo.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.230473503843-pei44si8hfgj9n3ht30hp875cjlbiqbo</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCwh3sqXbyBkfNPt9AjrdyIFz_jl1zSepo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>230473503843</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.wearprojs</string>
+	<key>PROJECT_ID</key>
+	<string>wearproj-980b4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wearproj-980b4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:230473503843:ios:1778e19d15647007e19456</string>
+</dict>
+</plist>

@@ -37,6 +37,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   cool_stepper: ^1.2.1
   google_fonts: ^4.0.3
+  syncfusion_flutter_datepicker: ^21.2.4
+  cloud_firestore: ^4.6.0
+  firebase_auth: ^4.2.2
+  provider: ^6.0.5
+  flutter_iconly: ^1.0.2
+  firebase_core: ^2.11.0
 
 dev_dependencies:
   flutter_test:
