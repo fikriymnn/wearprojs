@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wearprojs/model/user_model.dart' as model;
@@ -8,6 +9,7 @@ import 'const/firebase_const.dart';
 
 class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  DatabaseReference ref = FirebaseDatabase.instance.ref().child('akun/123');
 
   final User? user = authInstance.currentUser;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -48,6 +50,7 @@ class AuthMethods {
             beratBadan: beratBadan,
             kelamin: kelamin,
             tanggalLahir: tanggalLahir,
+            heartRate: 0,
             tinggiBadan: tinggiBadan,
             tinggkatAktivitas: aktivitas,
             tujuan: tujuan);
@@ -57,6 +60,9 @@ class AuthMethods {
             .collection("akun")
             .doc(cred.user!.uid)
             .set(_user.toJson());
+        // await ref
+        //     .push()
+        //     .set({"id": cred.user!.uid, "email": email, "heart_rate": 0});
 
         res = "success";
       } else {

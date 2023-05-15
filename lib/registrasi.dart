@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_stepper/cool_stepper.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -32,6 +33,15 @@ class _RegistrasiScreensState extends State<RegistrasiScreens> {
   bool _isLoading = false;
   final _passFocusNode = FocusNode();
 
+  late DatabaseReference dbRef;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    dbRef = FirebaseDatabase.instance.ref().child('akun');
+    super.initState();
+  }
+
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
       if (args.value is PickerDateRange) {
@@ -58,6 +68,7 @@ class _RegistrasiScreensState extends State<RegistrasiScreens> {
         tanggalLahir: _selectedDate,
         tinggiBadan: _tinggiBadanCtrl.text,
         tujuan: selectedTujuan.toString());
+
     // if string returned is sucess, user has been created
     if (res == "success") {
       setState(() {

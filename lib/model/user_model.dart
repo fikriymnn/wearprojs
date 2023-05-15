@@ -6,6 +6,7 @@ class UserModel {
   final String tujuan;
   final String kelamin;
   final String tanggalLahir;
+  final double heartRate;
   final String tinggkatAktivitas;
   final String beratBadan;
   final String tinggiBadan;
@@ -20,6 +21,7 @@ class UserModel {
       required this.beratBadan,
       required this.kelamin,
       required this.tanggalLahir,
+      required this.heartRate,
       required this.tinggiBadan,
       required this.tinggkatAktivitas});
 
@@ -33,6 +35,7 @@ class UserModel {
         beratBadan: snapshot["beratBadan"],
         kelamin: snapshot["kelamin"],
         tanggalLahir: snapshot["tglLahir"],
+        heartRate: snapshot["heartRate"],
         tinggiBadan: snapshot["tinggiBadan"],
         tinggkatAktivitas: snapshot["tingkatAktivitas"],
         tujuan: snapshot["tujuan"]);
@@ -44,6 +47,7 @@ class UserModel {
         "beratBadan": beratBadan,
         "kelamin": kelamin,
         "tglLahir": tanggalLahir,
+        "heartRate": heartRate,
         "tinggiBadan": tinggiBadan,
         "tingkatAktivitas": tinggkatAktivitas,
         "tujuan": tujuan,
