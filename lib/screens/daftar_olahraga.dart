@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -12,13 +12,6 @@ class DaftarOlahraga extends StatefulWidget {
 
   @override
   State<DaftarOlahraga> createState() => _DaftarOlahragaState();
-}
-
-final DBRef = FirebaseDatabase.instance.ref().child('Users');
-final FirebaseAuth _auth = FirebaseAuth.instance;
-void writeData() async {
-  DBRef.child("uid")
-      .set({'id': 'ID1', 'Name': 'Mehul Jain', 'Phone': '8856061841'});
 }
 
 class _DaftarOlahragaState extends State<DaftarOlahraga> {

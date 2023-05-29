@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wearprojs/const/yy.dart';
 
 import 'package:wearprojs/login.dart';
 
@@ -21,6 +22,9 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
     return Center(
       child: Column(
         children: [
+          SizedBox(
+            height: 100,
+          ),
           InkWell(
               onTap: () {
                 authInstance.signOut();

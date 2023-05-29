@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_stepper/cool_stepper.dart';
-import 'package:firebase_database/firebase_database.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -20,7 +20,8 @@ class RegistrasiScreens extends StatefulWidget {
 
 class _RegistrasiScreensState extends State<RegistrasiScreens> {
   final _formKey = GlobalKey<FormState>();
-  String _selectedDate = '';
+  DateTime _selectedDate = DateTime.now();
+
   String? selectedTujuan;
   String? selectedKelamin;
   String? selectedAktivitas;
@@ -33,12 +34,10 @@ class _RegistrasiScreensState extends State<RegistrasiScreens> {
   bool _isLoading = false;
   final _passFocusNode = FocusNode();
 
-  late DatabaseReference dbRef;
-
   @override
   void initState() {
     // TODO: implement initState
-    dbRef = FirebaseDatabase.instance.ref().child('akun');
+
     super.initState();
   }
 
@@ -46,7 +45,7 @@ class _RegistrasiScreensState extends State<RegistrasiScreens> {
     setState(() {
       if (args.value is PickerDateRange) {
       } else if (args.value is DateTime) {
-        _selectedDate = args.value.toString();
+        _selectedDate = args.value;
       }
     });
   }
@@ -59,15 +58,15 @@ class _RegistrasiScreensState extends State<RegistrasiScreens> {
 
     // signup user using our authmethodds
     String res = await AuthMethods().signUpUser(
-        createdAt: Timestamp.now(),
-        password: _password.text,
-        email: _email.text,
-        aktivitas: selectedAktivitas.toString(),
-        beratBadan: _beratBadanCtrl.text,
-        kelamin: selectedKelamin.toString(),
-        tanggalLahir: _selectedDate,
-        tinggiBadan: _tinggiBadanCtrl.text,
-        tujuan: selectedTujuan.toString());
+      createdAt: Timestamp.now(),
+      password: _password.text,
+      email: _email.text,
+      aktivitas: selectedAktivitas.toString(),
+      beratBadan: _beratBadanCtrl.text,
+      kelamin: selectedKelamin.toString(),
+      tanggalLahir: _selectedDate,
+      tinggiBadan: _tinggiBadanCtrl.text,
+    );
 
     // if string returned is sucess, user has been created
     if (res == "success") {
@@ -265,50 +264,6 @@ class _RegistrasiScreensState extends State<RegistrasiScreens> {
             ],
           ),
           validation: () {}),
-      CoolStep(
-        title: 'Select your role',
-        subtitle: 'Choose a role that better defines you',
-        isHeaderEnabled: false,
-        content: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 40),
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Tujuan Anda Menggunakan Aplikasi",
-                      style: GoogleFonts.roboto(
-                        textStyle: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 100,
-            ),
-            _buildSelectorTujuan(
-              context: context,
-              name: 'Pengurangan Berat Badan',
-            ),
-            SizedBox(height: 10),
-            _buildSelectorTujuan(
-              context: context,
-              name: 'Pertahankan Berat Badan Saya',
-            ),
-            SizedBox(height: 10),
-            _buildSelectorTujuan(
-              context: context,
-              name: 'Peningkatan Berat Badan',
-            ),
-          ],
-        ),
-        validation: () {},
-      ),
       CoolStep(
           title: "",
           subtitle: "",
@@ -520,8 +475,6 @@ class _RegistrasiScreensState extends State<RegistrasiScreens> {
           return showSnackBar(context, "Tanggal lahir harus di isi");
         } else if (selectedKelamin == null) {
           return showSnackBar(context, "Kelamin harus di isi");
-        } else if (selectedTujuan == null) {
-          return showSnackBar(context, "Tujuan harus di isi");
         } else if (_tinggiBadanCtrl == null) {
           return showSnackBar(context, "Tinggi badan harus di isi");
         } else if (_beratBadanCtrl == null) {

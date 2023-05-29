@@ -22,11 +22,16 @@ class _HitungKaloriState extends State<HitungKalori> {
   String myAge = "";
 
   double Bmi = 0;
+  double Bmr = 0;
+  double kal = 0;
   String katBmi = "";
 
-  String? tglLahir;
+  DateTime tglLahir = DateTime.timestamp();
+  DateTime currentDate = DateTime.now();
+  int umur = 0;
   String tinggi = "";
   String berat = "";
+  String tingkatAktivitas = "";
   String? kelamin;
   bool _isLoading = false;
 
@@ -55,6 +60,7 @@ class _HitungKaloriState extends State<HitungKalori> {
         tglLahir = userDoc.get('tglLahir');
         tinggi = userDoc.get('tinggiBadan');
         berat = userDoc.get('beratBadan');
+        tingkatAktivitas = userDoc.get('tingkatAktivitas');
         kelamin = userDoc.get('kelamin');
       }
     } catch (error) {
@@ -70,9 +76,9 @@ class _HitungKaloriState extends State<HitungKalori> {
   }
 
   void HitungBmi() {
-    double beratBadan = double.parse(berat);
     double tinggiBadanCm = double.parse(tinggi);
     double tinggiBadanM = tinggiBadanCm / 100;
+    double beratBadan = double.parse(berat);
     setState(() {
       Bmi = beratBadan / (tinggiBadanM * tinggiBadanM);
       if (Bmi < 17) {
@@ -101,6 +107,67 @@ class _HitungKaloriState extends State<HitungKalori> {
     });
   }
 
+  void hitungBmr() {
+    double beratBadan = double.parse(berat);
+    double tinggiBadanCm = double.parse(tinggi);
+    int age = currentDate.year - tglLahir.year;
+    double tinggiBadanM = tinggiBadanCm / 100;
+    double l = 66;
+    double P = 665;
+    double aktivitas = 0;
+
+    if (kelamin == "Laki-Laki") {
+      if (tingkatAktivitas == "Jarang Sekali") {
+        setState(() {
+          aktivitas = 1.30;
+        });
+      } else if (tingkatAktivitas == "Sedikit Aktif") {
+        setState(() {
+          aktivitas = 1.65;
+        });
+      } else if (tingkatAktivitas == "Aktif") {
+        setState(() {
+          aktivitas = 1.76;
+        });
+      } else if (tingkatAktivitas == "Sangat Aktif") {
+        setState(() {
+          aktivitas = 1.65;
+        });
+      } else {
+        aktivitas = 0;
+      }
+
+      setState(() {
+        Bmr = l + (13.7 * beratBadan) + (5 * tinggiBadanCm) - (6.8 * age);
+        kal = Bmr * aktivitas;
+      });
+    } else {
+      if (tingkatAktivitas == "Jarang Sekali") {
+        setState(() {
+          aktivitas = 1.30;
+        });
+      } else if (tingkatAktivitas == "Sedikit Aktif") {
+        setState(() {
+          aktivitas = 1.65;
+        });
+      } else if (tingkatAktivitas == "Aktif") {
+        setState(() {
+          aktivitas = 1.76;
+        });
+      } else if (tingkatAktivitas == "Sangat Aktif") {
+        setState(() {
+          aktivitas = 1.65;
+        });
+      } else {
+        aktivitas = 0;
+      }
+      setState(() {
+        Bmr = P + (9.6 * beratBadan) + (1.8 * tinggiBadanCm) - (4.7 * age);
+        kal = Bmr * aktivitas;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -109,6 +176,7 @@ class _HitungKaloriState extends State<HitungKalori> {
         children: [
           Text(Bmi.toStringAsFixed(2)),
           Text(katBmi),
+          Text(kal.toString()),
           Text(
             "Usia ${tglLahir == null ? "" : tglLahir!} Tahun",
             style: TextStyle(fontSize: 20),
@@ -152,7 +220,9 @@ class _HitungKaloriState extends State<HitungKalori> {
                         style: TextStyle(fontSize: 20),
                       )),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        hitungBmr();
+                      },
                       child: Text(
                         "Hitung BMR",
                         style: TextStyle(fontSize: 20),
