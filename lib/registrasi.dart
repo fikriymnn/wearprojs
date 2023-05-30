@@ -315,7 +315,7 @@ class _RegistrasiScreensState extends State<RegistrasiScreens> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Berapakah Umur Anda?",
+                        "Tanggal Lahir Anda?",
                         style: GoogleFonts.roboto(
                           textStyle: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),

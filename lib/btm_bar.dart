@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:provider/provider.dart';
-import 'package:wearprojs/provider/user_provider.dart';
+
+import 'package:google_fonts/google_fonts.dart';
+
+import 'package:wearprojs/drawer_custom.dart';
+
 import 'package:wearprojs/screens/catatan_harian.dart';
 import 'package:wearprojs/screens/daftar_olahraga.dart';
 import 'package:wearprojs/screens/hitung_kalori.dart';
@@ -19,7 +19,7 @@ class BottomBarScreen extends StatefulWidget {
 class _BottomBarScreenState extends State<BottomBarScreen> {
   int _selectedIndex = 0;
   final List<Map<String, dynamic>> _pages = [
-    {'page': MakananSehatScreens(), 'title': 'Makanan sehat Screen'},
+    {'page': MakananSehatScreens(), 'title': 'Makanan sehat'},
     {'page': const HitungKalori(), 'title': 'Hitung kalori'},
     {'page': const DaftarOlahraga(), 'title': 'Daftar olahraga'},
     {'page': const CatatanHarian(), 'title': 'Catatan harian'},
@@ -35,9 +35,20 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
     // Provider.of<UserProvider>(context).refreshUser();
 
     return Scaffold(
-      /* appBar: AppBar(
-        title: Text(_pages[_selectedIndex]['title']),
-      ), */
+      drawer: DrawerCustom(),
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          _pages[_selectedIndex]['title'],
+          style: GoogleFonts.roboto(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+      ),
       body: _pages[_selectedIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
