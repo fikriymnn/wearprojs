@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:wearprojs/const/snack_bar.dart';
+import 'package:intl/intl.dart';
 
 import '../const/firebase_const.dart';
 
@@ -26,59 +27,16 @@ class _HitungKaloriState extends State<HitungKalori> {
   double kal = 0;
   String katBmi = "";
 
-  DateTime tglLahir = DateTime.timestamp();
-  DateTime currentDate = DateTime.now();
-  int umur = 0;
-  String tinggi = "";
-  String berat = "";
-  String tingkatAktivitas = "";
-  String? kelamin;
   bool _isLoading = false;
 
   @override
   void initState() {
-    getUserData();
-
     super.initState();
   }
 
-  Future<void> getUserData() async {
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      final DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('akun')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .get();
-      if (userDoc == null) {
-        setState(() {
-          _isLoading = false;
-        });
-        return;
-      } else {
-        tglLahir = userDoc.get('tglLahir');
-        tinggi = userDoc.get('tinggiBadan');
-        berat = userDoc.get('beratBadan');
-        tingkatAktivitas = userDoc.get('tingkatAktivitas');
-        kelamin = userDoc.get('kelamin');
-      }
-    } catch (error) {
-      setState(() {
-        _isLoading = false;
-      });
-      showSnackBar(context, '$error');
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
+  void HitungBmi(double tinggiBadan, double beratBadan) {
+    double tinggiBadanM = tinggiBadan / 100;
 
-  void HitungBmi() {
-    double tinggiBadanCm = double.parse(tinggi);
-    double tinggiBadanM = tinggiBadanCm / 100;
-    double beratBadan = double.parse(berat);
     setState(() {
       Bmi = beratBadan / (tinggiBadanM * tinggiBadanM);
       if (Bmi < 17) {
@@ -107,11 +65,9 @@ class _HitungKaloriState extends State<HitungKalori> {
     });
   }
 
-  void hitungBmr() {
-    double beratBadan = double.parse(berat);
-    double tinggiBadanCm = double.parse(tinggi);
-    int age = currentDate.year - tglLahir.year;
-    double tinggiBadanM = tinggiBadanCm / 100;
+  void hitungBmr(double beratBadan, double tinggiBadan, int usia,
+      String kelamin, String tingkatAktivitas) {
+    double tinggiBadanM = tinggiBadan / 100;
     double l = 66;
     double P = 665;
     double aktivitas = 0;
@@ -138,7 +94,7 @@ class _HitungKaloriState extends State<HitungKalori> {
       }
 
       setState(() {
-        Bmr = l + (13.7 * beratBadan) + (5 * tinggiBadanCm) - (6.8 * age);
+        Bmr = l + (13.7 * beratBadan) + (5 * tinggiBadan) - (6.8 * usia);
         kal = Bmr * aktivitas;
       });
     } else {
@@ -162,7 +118,7 @@ class _HitungKaloriState extends State<HitungKalori> {
         aktivitas = 0;
       }
       setState(() {
-        Bmr = P + (9.6 * beratBadan) + (1.8 * tinggiBadanCm) - (4.7 * age);
+        Bmr = P + (9.6 * beratBadan) + (1.8 * tinggiBadan) - (4.7 * usia);
         kal = Bmr * aktivitas;
       });
     }
@@ -170,69 +126,101 @@ class _HitungKaloriState extends State<HitungKalori> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: Column(
-        children: [
-          Text(Bmi.toStringAsFixed(2)),
-          Text(katBmi),
-          Text(kal.toString()),
-          Text(
-            "Usia ${tglLahir == null ? "" : tglLahir!} Tahun",
-            style: TextStyle(fontSize: 20),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Tinggi Badan ${tinggi == null ? "" : tinggi!} CM",
-            style: TextStyle(fontSize: 20),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Berat Badan ${berat == null ? "" : berat!} Kg",
-            style: TextStyle(fontSize: 20),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Kelamin ${kelamin == null ? "" : kelamin!}",
-            style: TextStyle(fontSize: 20),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        HitungBmi();
-                      },
-                      child: Text(
-                        "Hitung BMI",
-                        style: TextStyle(fontSize: 20),
-                      )),
-                  TextButton(
-                      onPressed: () {
-                        hitungBmr();
-                      },
-                      child: Text(
-                        "Hitung BMR",
-                        style: TextStyle(fontSize: 20),
-                      )),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("akun")
+            .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: Text("no data"));
+          } else {
+            var docsk = snapshot.data!.docs;
+
+            return ListView.builder(
+                itemCount: docsk.length,
+                itemBuilder: (context, index) {
+                  var tahun = snapshot.data!.docs[index]['tglLahir'].toDate();
+                  var now = DateTime.now();
+                  int usia = int.parse(DateFormat.y().format(now)) -
+                      int.parse(DateFormat.y().format(tahun));
+
+                  String beratBadan = docsk[index]['beratBadan'];
+                  String tinggiBadan = docsk[index]['tinggiBadan'];
+                  String kelamin = docsk[index]['kelamin'];
+                  String tingkatAktivitas = docsk[index]['tingkatAktivitas'];
+                  return Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Column(
+                      children: [
+                        Text(Bmi.toStringAsFixed(2)),
+                        Text(katBmi),
+                        Text(kal.toString()),
+                        Text(
+                          "Usia $usia Tahun",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Tinggi Badan $tinggiBadan CM",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Berat Badan $beratBadan Kg",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Kelamin $kelamin",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                    onPressed: () {
+                                      HitungBmi(double.parse(tinggiBadan),
+                                          double.parse(beratBadan));
+                                    },
+                                    child: Text(
+                                      "Hitung BMI",
+                                      style: TextStyle(fontSize: 20),
+                                    )),
+                                TextButton(
+                                    onPressed: () {
+                                      hitungBmr(
+                                          double.parse(beratBadan),
+                                          double.parse(tinggiBadan),
+                                          usia,
+                                          kelamin,
+                                          tingkatAktivitas);
+                                    },
+                                    child: Text(
+                                      "Hitung BMR",
+                                      style: TextStyle(fontSize: 20),
+                                    )),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                });
+          }
+        });
   }
 }
