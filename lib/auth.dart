@@ -23,15 +23,12 @@ class AuthMethods {
 
   // Signing Up User
 
-  Future<String> signUpUser(
-      {required Timestamp createdAt,
-      required String email,
-      required String password,
-      required String kelamin,
-      required DateTime tanggalLahir,
-      required String aktivitas,
-      required String beratBadan,
-      required String tinggiBadan}) async {
+  Future<String> signUpUser({
+    required Timestamp createdAt,
+    required String email,
+    required String password,
+    required String nama,
+  }) async {
     String res = "Some error Occurred";
     try {
       if (email != null && email.isNotEmpty) {
@@ -44,13 +41,20 @@ class AuthMethods {
         model.UserModel _user = model.UserModel(
           createdAt: Timestamp.now(),
           uid: cred.user!.uid,
+          nama: nama,
           email: email,
-          beratBadan: beratBadan,
-          kelamin: kelamin,
-          tanggalLahir: tanggalLahir,
+          beratBadan: "",
+          kelamin: "",
+          tanggalLahir: DateTime.now(),
           heartRate: 0,
-          tinggiBadan: tinggiBadan,
-          tinggkatAktivitas: aktivitas,
+          tinggiBadan: "",
+          tinggkatAktivitas: "",
+          bmi: 0,
+          bmr: 0,
+          hasilBmr: "",
+          kalori: 0,
+          katBmi: "",
+          myAge: "",
         );
 
         // adding user in our database

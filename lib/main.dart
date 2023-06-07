@@ -6,6 +6,7 @@ import 'package:wearprojs/btm_bar.dart';
 import 'package:wearprojs/login.dart';
 import 'package:wearprojs/provider/user_provider.dart';
 import 'package:wearprojs/registrasi.dart';
+import 'package:wearprojs/verifikasi.dart';
 
 import 'firebase_options.dart';
 
@@ -32,29 +33,16 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Aplikasi Ujikompetensi',
-        home: StreamBuilder(
+        home: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              // Checking if the snapshot has any data or not
-              if (snapshot.hasData) {
-                // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
-                return const BottomBarScreen();
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text('${snapshot.error}'),
-                );
-              }
+            // Checking if the snapshot has any data or not
+            if (snapshot.hasData) {
+              // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
+              return const VerifikasiScreen();
+            } else {
+              return LoginScreen();
             }
-
-            // means connection to future hasnt been made yet
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            return LoginScreen();
           },
         ),
       ),
