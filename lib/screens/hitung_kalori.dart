@@ -35,7 +35,7 @@ class _HitungKaloriState extends State<HitungKalori> {
     super.initState();
   }
 
-  void HitungBmi(double tinggiBadan, double beratBadan) {
+  HitungBmi(double tinggiBadan, double beratBadan) {
     double tinggiBadanM = tinggiBadan / 100;
 
     setState(() {
@@ -66,8 +66,8 @@ class _HitungKaloriState extends State<HitungKalori> {
     });
   }
 
-  void hitungBmr(double beratBadan, double tinggiBadan, int usia,
-      String kelamin, String tingkatAktivitas) {
+  hitungBmr(double beratBadan, double tinggiBadan, int usia, String kelamin,
+      String tingkatAktivitas) {
     double tinggiBadanM = tinggiBadan / 100;
     double l = 66;
     double P = 665;
@@ -151,411 +151,453 @@ class _HitungKaloriState extends State<HitungKalori> {
                   String kelamin = docsk[index]['kelamin'];
                   String tingkatAktivitas = docsk[index]['tingkatAktivitas'];
 
-                  return Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          "Menu Menghitung Kalori",
-                          style: GoogleFonts.roboto(
-                            fontSize: 25,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          child: Row(
+                  return beratBadan == "" ||
+                          tinggiBadan == "" ||
+                          kelamin == "" ||
+                          tingkatAktivitas == ""
+                      ? Center(
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditDataScreens(
+                                            kelamin: kelamin,
+                                            aktivitas: tingkatAktivitas,
+                                            tinggi: tinggiBadan,
+                                            berat: beratBadan,
+                                            umur: tahun)));
+                              },
+                              child: Text("lengkapi data")))
+                      : Padding(
+                          padding: const EdgeInsets.all(30.0),
+                          child: Column(
                             children: [
-                              Container(
-                                  width: 150,
-                                  height: 40,
-                                  child: Text(
-                                    "Hasil Hitung BMI:",
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  )),
+                              Text(
+                                "Menu Menghitung Kalori",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 25,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               SizedBox(
-                                width: 10,
+                                height: 15,
                               ),
                               Container(
-                                  width: 160,
-                                  height: 40,
-                                  child: Text(
-                                    Bmi == 0
-                                        ? ""
-                                        : "${Bmi.toStringAsFixed(2)} " +
-                                            "(${katBmi})",
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ))
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          child: Row(
-                            children: [
-                              Container(
-                                  width: 150,
-                                  height: 40,
-                                  child: Text(
-                                    "Hasil Hitung BMR:",
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  )),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                  width: 160,
-                                  height: 40,
-                                  child: Text(
-                                    Bmr == 0 ? "" : kal.toString(),
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ))
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                child: Column(
+                                child: Row(
                                   children: [
-                                    Icon(
-                                      Icons.male,
-                                      size: 70,
-                                      color: kelamin == "Perempuan"
-                                          ? Colors.grey
-                                          : Colors.blue,
+                                    Container(
+                                        width: 150,
+                                        height: 40,
+                                        child: Text(
+                                          "Hasil Hitung BMI:",
+                                          style: GoogleFonts.roboto(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        )),
+                                    SizedBox(
+                                      width: 10,
                                     ),
-                                    Text(
-                                      "Laki-Laki",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: 20,
-                                        color: kelamin == "Perempuan"
-                                            ? Colors.grey
-                                            : Colors.blue,
-                                        fontWeight: FontWeight.w500,
+                                    Container(
+                                        width: 160,
+                                        height: 40,
+                                        child: Text(
+                                          Bmi == 0
+                                              ? ""
+                                              : "${Bmi.toStringAsFixed(0)} " +
+                                                  "(${katBmi})",
+                                          style: GoogleFonts.roboto(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ))
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        width: 150,
+                                        height: 40,
+                                        child: Text(
+                                          "Hasil Hitung BMR:",
+                                          style: GoogleFonts.roboto(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        )),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                        width: 160,
+                                        height: 40,
+                                        child: Text(
+                                          Bmr == 0 ? "" : kal.toString(),
+                                          style: GoogleFonts.roboto(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ))
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.male,
+                                            size: 70,
+                                            color: kelamin == "Perempuan"
+                                                ? Colors.grey
+                                                : Colors.blue,
+                                          ),
+                                          Text(
+                                            "Laki-Laki",
+                                            style: GoogleFonts.roboto(
+                                              fontSize: 20,
+                                              color: kelamin == "Perempuan"
+                                                  ? Colors.grey
+                                                  : Colors.blue,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    SizedBox(
+                                      child: Column(
+                                        children: [
+                                          Icon(
+                                            Icons.female,
+                                            size: 70,
+                                            color: kelamin == "Perempuan"
+                                                ? Colors.pink
+                                                : Colors.grey,
+                                          ),
+                                          Text(
+                                            "Perempuan",
+                                            style: GoogleFonts.roboto(
+                                              fontSize: 20,
+                                              color: kelamin == "Perempuan"
+                                                  ? Colors.pink
+                                                  : Colors.grey,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     )
                                   ],
                                 ),
                               ),
                               SizedBox(
-                                width: 20,
+                                height: 20,
                               ),
-                              SizedBox(
-                                child: Column(
+                              Container(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(
-                                      Icons.female,
-                                      size: 70,
-                                      color: kelamin == "Perempuan"
-                                          ? Colors.pink
-                                          : Colors.grey,
+                                    Container(
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: 120,
+                                            height: 40,
+                                            child: Text(
+                                              "Usia",
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            width: 120,
+                                            height: 40,
+                                            child: Text(
+                                              "Tinggi Badan",
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            width: 120,
+                                            height: 40,
+                                            child: Text(
+                                              "Berat Badan",
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            width: 120,
+                                            height: 40,
+                                            child: Text(
+                                              "Aktivitas",
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 20,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Text(
-                                      "Perempuan",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: 20,
-                                        color: kelamin == "Perempuan"
-                                            ? Colors.pink
-                                            : Colors.grey,
-                                        fontWeight: FontWeight.w500,
+                                    SizedBox(
+                                      width: 50,
+                                    ),
+                                    Container(
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            width: 140,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(width: 3)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Text(
+                                                "$usia Tahun",
+                                                style: GoogleFonts.roboto(
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            width: 140,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(width: 3)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Text(
+                                                "$tinggiBadan CM",
+                                                style: GoogleFonts.roboto(
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            width: 140,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(width: 3)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Text(
+                                                "$beratBadan KG",
+                                                style: GoogleFonts.roboto(
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                            width: 140,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(width: 3)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Text(
+                                                "$tingkatAktivitas",
+                                                style: GoogleFonts.roboto(
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.normal,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     )
                                   ],
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
                               Container(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 120,
-                                      height: 40,
-                                      child: Text(
-                                        "Usia",
-                                        style: GoogleFonts.roboto(
-                                          fontSize: 20,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 24),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      InkWell(
+                                        onTap: () async {
+                                          await HitungBmi(
+                                              double.parse(tinggiBadan),
+                                              double.parse(beratBadan));
+
+                                          await hitungBmr(
+                                              double.parse(beratBadan),
+                                              double.parse(tinggiBadan),
+                                              usia,
+                                              kelamin,
+                                              tingkatAktivitas);
+
+                                          FirebaseFirestore.instance
+                                              .collection("akun")
+                                              .doc(FirebaseAuth
+                                                  .instance.currentUser!.uid)
+                                              .update({
+                                            'bmi': Bmi,
+                                            'bmr': Bmr,
+                                            'hasilBmr': int.parse(
+                                                kal.toStringAsFixed(0)),
+                                            'katBmi': katBmi,
+                                            'myAge': usia
+                                          });
+                                        },
+                                        child: Container(
+                                            height: 40,
+                                            width: 130,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                                color: Colors.green),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Center(
+                                                child: Text(
+                                                  "Hitung BMI",
+                                                  style: GoogleFonts.roboto(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ),
+                                            )),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: 120,
-                                      height: 40,
-                                      child: Text(
-                                        "Tinggi Badan",
-                                        style: GoogleFonts.roboto(
-                                          fontSize: 20,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                        ),
+                                      InkWell(
+                                        onTap: () {},
+                                        child: Container(
+                                            height: 40,
+                                            width: 130,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                                color: Colors.green),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(5.0),
+                                              child: Center(
+                                                child: Text(
+                                                  "Hitung BMR",
+                                                  style: GoogleFonts.roboto(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ),
+                                            )),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: 120,
-                                      height: 40,
-                                      child: Text(
-                                        "Berat Badan",
-                                        style: GoogleFonts.roboto(
-                                          fontSize: 20,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: 120,
-                                      height: 40,
-                                      child: Text(
-                                        "Aktivitas",
-                                        style: GoogleFonts.roboto(
-                                          fontSize: 20,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                               SizedBox(
-                                width: 50,
+                                height: 30,
                               ),
-                              Container(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 140,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(width: 3)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => EditDataScreens(
+                                              kelamin: kelamin,
+                                              aktivitas: tingkatAktivitas,
+                                              tinggi: tinggiBadan,
+                                              berat: beratBadan,
+                                              umur: tahun)));
+                                },
+                                child: Container(
+                                    height: 40,
+                                    width: 130,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        color: Colors.green),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Center(
                                         child: Text(
-                                          "$usia Tahun",
+                                          "Edit Data",
                                           style: GoogleFonts.roboto(
                                             fontSize: 20,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: 140,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(width: 3)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Text(
-                                          "$tinggiBadan CM",
-                                          style: GoogleFonts.roboto(
-                                            fontSize: 20,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: 140,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(width: 3)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Text(
-                                          "$beratBadan KG",
-                                          style: GoogleFonts.roboto(
-                                            fontSize: 20,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    Container(
-                                      width: 140,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                          border: Border.all(width: 3)),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Text(
-                                          "$tingkatAktivitas",
-                                          style: GoogleFonts.roboto(
-                                            fontSize: 20,
-                                            color: Colors.black,
+                                            color: Colors.white,
                                             fontWeight: FontWeight.normal,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              )
+                                    )),
+                              ),
                             ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    HitungBmi(double.parse(tinggiBadan),
-                                        double.parse(beratBadan));
-                                  },
-                                  child: Container(
-                                      height: 40,
-                                      width: 130,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(6),
-                                          color: Colors.green),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Center(
-                                          child: Text(
-                                            "Hitung BMI",
-                                            style: GoogleFonts.roboto(
-                                              fontSize: 20,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ),
-                                      )),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    hitungBmr(
-                                        double.parse(beratBadan),
-                                        double.parse(tinggiBadan),
-                                        usia,
-                                        kelamin,
-                                        tingkatAktivitas);
-                                  },
-                                  child: Container(
-                                      height: 40,
-                                      width: 130,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(6),
-                                          color: Colors.green),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Center(
-                                          child: Text(
-                                            "Hitung BMR",
-                                            style: GoogleFonts.roboto(
-                                              fontSize: 20,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ),
-                                      )),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditDataScreens(
-                                        kelamin: kelamin,
-                                        aktivitas: tingkatAktivitas,
-                                        tinggi: tinggiBadan,
-                                        berat: beratBadan,
-                                        umur: tahun)));
-                          },
-                          child: Container(
-                              height: 40,
-                              width: 130,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6),
-                                  color: Colors.green),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Center(
-                                  child: Text(
-                                    "Edit Data",
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 20,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                ),
-                              )),
-                        ),
-                      ],
-                    ),
-                  );
+                        );
                 });
           }
         });
