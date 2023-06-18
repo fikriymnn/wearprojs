@@ -3,7 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:uuid/uuid.dart';
+import 'package:wearprojs/const/snack_bar.dart';
 import 'package:wearprojs/const/yy.dart';
+import 'package:extended_image/extended_image.dart';
 
 import 'package:wearprojs/login.dart';
 
@@ -12,6 +16,7 @@ import '../const/firebase_const.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/user_model.dart';
+import 'package:intl/intl.dart';
 
 class MakananSehatScreens extends StatefulWidget {
   const MakananSehatScreens({super.key});
@@ -27,8 +32,11 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
 
   List food = [];
   bool isLoading = false;
+  bool submitLoading = false;
 
   User? user = FirebaseAuth.instance.currentUser;
+
+  TextEditingController cariMakan = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,63 +56,133 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
               itemBuilder: (context, index) {
                 final calorie =
                     snapshot.data.docs[index]['hasilBmr'].toString();
-                return Center(
+
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 100,
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Kalori di butuhkan : ",
+                              style: GoogleFonts.roboto(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Flexible(
+                              child: Text(
+                                "$calorie",
+                                style: GoogleFonts.roboto(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      Text(calorie.toString()),
-                      TextButton(
-                          onPressed: () async {
-                            try {
-                              setState(() {
-                                isLoading = true;
-                              });
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 40,
+                                child: TextField(
+                                  controller: cariMakan,
+                                  cursorColor: Colors.green,
+                                  decoration: InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      hintText: 'Kalori'),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                try {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
 
-                              response = await dio.get(
-                                  "https://low-carb-recipes.p.rapidapi.com/search?maxCalories=${calorie.toString()}&limit=2",
-                                  options: Options(headers: {
-                                    'X-RapidAPI-Key':
-                                        'd9812ad25dmshc5e4602b87baf3dp1db246jsn08b1ed27f455',
-                                    'X-RapidAPI-Host':
-                                        'low-carb-recipes.p.rapidapi.com'
-                                  }));
+                                  response = await dio.get(
+                                      "https://low-carb-recipes.p.rapidapi.com/search?maxCalories=${cariMakan.text}&limit=10",
+                                      options: Options(headers: {
+                                        'X-RapidAPI-Key':
+                                            'd9812ad25dmshc5e4602b87baf3dp1db246jsn08b1ed27f455',
+                                        'X-RapidAPI-Host':
+                                            'low-carb-recipes.p.rapidapi.com'
+                                      }));
 
-                              setState(() {
-                                food = response!.data;
-                                isLoading = false;
-                              });
-                            } catch (e) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text("error"),
-                              ));
-                            }
-                            ;
-                          },
-                          child: Text("cari")),
+                                  setState(() {
+                                    food = response!.data;
+                                    isLoading = false;
+                                  });
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text("error"),
+                                  ));
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              },
+                              child: Container(
+                                width: 80,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Center(
+                                    child: submitLoading
+                                        ? CircularProgressIndicator(
+                                            color: Colors.white,
+                                          )
+                                        : Text(
+                                            "Cari",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          )),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       isLoading == true
                           ? CircularProgressIndicator()
                           : ListView.builder(
                               itemCount: food.length,
                               shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 return Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 30),
+                                  padding: const EdgeInsets.only(bottom: 30),
                                   child: Container(
                                     child: Row(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          height: 130,
+                                        ExtendedImage.network(
+                                          food[index]['image'],
                                           width: 130,
-                                          child: Image.network(
-                                            food[index]['image'],
-                                            fit: BoxFit.cover,
-                                          ),
+                                          height: 130,
+                                          fit: BoxFit.cover,
+                                          cache: true,
                                         ),
                                         SizedBox(
                                           width: 15,
@@ -120,7 +198,14 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
                                                 children: [
                                                   Flexible(
                                                       child: Text(
-                                                          food[index]['name'])),
+                                                    food[index]['name'],
+                                                    style: GoogleFonts.roboto(
+                                                      color: Colors.black,
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )),
                                                 ],
                                               ),
                                             ),
@@ -128,24 +213,77 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
                                               height: 10,
                                             ),
                                             Text(
-                                                "Calori : ${food[index]['nutrients']['caloriesKCal']}"),
+                                              "Calori : ${food[index]['nutrients']['caloriesKCal']}",
+                                              style: GoogleFonts.roboto(
+                                                color: Colors.black,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
                                             SizedBox(
                                               height: 10,
                                             ),
-                                            Container(
-                                              width: 80,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.green,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              child: Center(
-                                                child: Text(
-                                                  "Add",
-                                                  style: TextStyle(
-                                                      color: Colors.white),
-                                                ),
+                                            InkWell(
+                                              onTap: () {
+                                                DateTime tsdate =
+                                                    DateTime.now();
+                                                String date = DateFormat.yMd()
+                                                    .format(tsdate);
+                                                var uuid = Uuid();
+                                                var id = uuid.v4();
+
+                                                try {
+                                                  setState(() {
+                                                    submitLoading = true;
+                                                  });
+
+                                                  FirebaseFirestore.instance
+                                                      .collection("akun")
+                                                      .doc(FirebaseAuth.instance
+                                                          .currentUser!.uid)
+                                                      .collection("makanan")
+                                                      .doc(id)
+                                                      .set({
+                                                    'uid': id,
+                                                    'date': date,
+                                                    'name': food[index]['name'],
+                                                    'kalori': food[index]
+                                                            ['nutrients']
+                                                        ['caloriesKCal'],
+                                                    'image': food[index]
+                                                        ['image']
+                                                  });
+                                                  setState(() {
+                                                    submitLoading = false;
+                                                  });
+                                                  showSnackBar(context,
+                                                      "Berhasil ditambahkan");
+                                                } catch (e) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                    content: Text("error"),
+                                                  ));
+                                                }
+                                              },
+                                              child: Container(
+                                                width: 80,
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.green,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Center(
+                                                    child: submitLoading
+                                                        ? CircularProgressIndicator(
+                                                            color: Colors.white,
+                                                          )
+                                                        : Text(
+                                                            "Add",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                          )),
                                               ),
                                             )
                                           ],

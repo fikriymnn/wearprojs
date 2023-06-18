@@ -46,6 +46,8 @@ dependencies:
   openfoodfacts: ^2.5.0
   dio: ^5.2.1
   http: ^0.13.6
+  uuid: ^3.0.7
+  extended_image: ^8.0.2
 
 dev_dependencies:
   flutter_test:

@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:wearprojs/drawer_custom.dart';
 
-import 'package:wearprojs/screens/catatan_harian.dart';
+import 'package:wearprojs/screens/catatan_harian/catatan_harian.dart';
 import 'package:wearprojs/screens/daftar_olahraga.dart';
 import 'package:wearprojs/screens/hitung_kalori.dart';
 import 'package:wearprojs/screens/makanan_sehat.dart';
@@ -35,6 +35,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
     // Provider.of<UserProvider>(context).refreshUser();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       drawer: DrawerCustom(),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),

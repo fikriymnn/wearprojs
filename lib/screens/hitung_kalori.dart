@@ -150,6 +150,9 @@ class _HitungKaloriState extends State<HitungKalori> {
                   String tinggiBadan = docsk[index]['tinggiBadan'];
                   String kelamin = docsk[index]['kelamin'];
                   String tingkatAktivitas = docsk[index]['tingkatAktivitas'];
+                  String hasilBmr = docsk[index]['hasilBmr'].toString();
+                  String hasilBmi = docsk[index]['bmi'].toString();
+                  String kategoriBmi = docsk[index]['katBmi'];
 
                   return beratBadan == "" ||
                           tinggiBadan == "" ||
@@ -186,6 +189,7 @@ class _HitungKaloriState extends State<HitungKalori> {
                               ),
                               Container(
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
                                         width: 150,
@@ -203,12 +207,11 @@ class _HitungKaloriState extends State<HitungKalori> {
                                     ),
                                     Container(
                                         width: 160,
-                                        height: 40,
                                         child: Text(
-                                          Bmi == 0
+                                          hasilBmi == 0
                                               ? ""
-                                              : "${Bmi.toStringAsFixed(0)} " +
-                                                  "(${katBmi})",
+                                              : "${hasilBmi} " +
+                                                  "(${kategoriBmi})",
                                           style: GoogleFonts.roboto(
                                             fontSize: 18,
                                             color: Colors.black,
@@ -242,7 +245,7 @@ class _HitungKaloriState extends State<HitungKalori> {
                                         width: 160,
                                         height: 40,
                                         child: Text(
-                                          Bmr == 0 ? "" : kal.toString(),
+                                          hasilBmr == 0 ? "" : hasilBmr,
                                           style: GoogleFonts.roboto(
                                             fontSize: 18,
                                             color: Colors.black,
@@ -502,8 +505,7 @@ class _HitungKaloriState extends State<HitungKalori> {
                                               .update({
                                             'bmi': Bmi,
                                             'bmr': Bmr,
-                                            'hasilBmr': int.parse(
-                                                kal.toStringAsFixed(0)),
+                                            'hasilBmr': kal,
                                             'katBmi': katBmi,
                                             'myAge': usia
                                           });
@@ -520,7 +522,7 @@ class _HitungKaloriState extends State<HitungKalori> {
                                                   const EdgeInsets.all(5.0),
                                               child: Center(
                                                 child: Text(
-                                                  "Hitung BMI",
+                                                  "Hitung",
                                                   style: GoogleFonts.roboto(
                                                     fontSize: 20,
                                                     color: Colors.white,
@@ -532,7 +534,19 @@ class _HitungKaloriState extends State<HitungKalori> {
                                             )),
                                       ),
                                       InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      EditDataScreens(
+                                                          kelamin: kelamin,
+                                                          aktivitas:
+                                                              tingkatAktivitas,
+                                                          tinggi: tinggiBadan,
+                                                          berat: beratBadan,
+                                                          umur: tahun)));
+                                        },
                                         child: Container(
                                             height: 40,
                                             width: 130,
@@ -545,7 +559,7 @@ class _HitungKaloriState extends State<HitungKalori> {
                                                   const EdgeInsets.all(5.0),
                                               child: Center(
                                                 child: Text(
-                                                  "Hitung BMR",
+                                                  "Edit Data",
                                                   style: GoogleFonts.roboto(
                                                     fontSize: 20,
                                                     color: Colors.white,
@@ -562,38 +576,6 @@ class _HitungKaloriState extends State<HitungKalori> {
                               ),
                               SizedBox(
                                 height: 30,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => EditDataScreens(
-                                              kelamin: kelamin,
-                                              aktivitas: tingkatAktivitas,
-                                              tinggi: tinggiBadan,
-                                              berat: beratBadan,
-                                              umur: tahun)));
-                                },
-                                child: Container(
-                                    height: 40,
-                                    width: 130,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        color: Colors.green),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Center(
-                                        child: Text(
-                                          "Edit Data",
-                                          style: GoogleFonts.roboto(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    )),
                               ),
                             ],
                           ),
