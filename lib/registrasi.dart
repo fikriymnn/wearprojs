@@ -498,220 +498,224 @@ class _RegistrasiScreensState extends State<RegistrasiScreens> {
           ),
         ),
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 100),
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Nama Anda",
-                        style: GoogleFonts.roboto(
-                          textStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                textInputAction: TextInputAction.next,
-                controller: _nama,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Masukkan nama anda';
-                  } else {
-                    return null;
-                  }
-                },
-                style: GoogleFonts.rubik(
-                    textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500)),
-                decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(width: 1, color: Colors.green),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(width: 1, color: Colors.green),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    hintText: "Nama",
-                    hintStyle: GoogleFonts.rubik(
-                        textStyle: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500))),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Email Anda",
-                        style: GoogleFonts.roboto(
-                          textStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                textInputAction: TextInputAction.next,
-                controller: _email,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value!.isEmpty || !value.contains('@')) {
-                    return 'Masukkan email dengan benar';
-                  } else {
-                    return null;
-                  }
-                },
-                style: GoogleFonts.rubik(
-                    textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500)),
-                decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(width: 1, color: Colors.green),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(width: 1, color: Colors.green),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    hintText: "Email",
-                    hintStyle: GoogleFonts.rubik(
-                        textStyle: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500))),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Password",
-                        style: GoogleFonts.roboto(
-                          textStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              TextFormField(
-                textInputAction: TextInputAction.done,
-                onEditingComplete: () {
-                  // _submitFormOnLogin();
-                },
-                controller: _password,
-                focusNode: _passFocusNode,
-                obscureText: _obscureText,
-                keyboardType: TextInputType.visiblePassword,
-                validator: (value) {
-                  if (value!.isEmpty || value.length <= 5) {
-                    return 'Masukkan password dengan benar';
-                  } else {
-                    return null;
-                  }
-                },
-                style: GoogleFonts.rubik(
-                    textStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500)),
-                decoration: InputDecoration(
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                      child: Icon(
-                        _obscureText ? Icons.visibility : Icons.visibility_off,
-                        color: Colors.green,
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(width: 1, color: Colors.green),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(width: 1, color: Colors.green),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    hintText: "Password",
-                    hintStyle: GoogleFonts.rubik(
-                        textStyle: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500))),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              InkWell(
-                onTap: () {
-                  signUpUser();
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 60,
-                  decoration: BoxDecoration(
-                      color: Colors.green,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Center(
-                    child: _isLoading
-                        ? CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : Text(
-                            "Registrasi",
-                            style: GoogleFonts.rubik(
-                                textStyle: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500)),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 100),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Nama Anda",
+                          style: GoogleFonts.roboto(
+                            textStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
                           ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  textInputAction: TextInputAction.next,
+                  controller: _nama,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Masukkan nama anda';
+                    } else {
+                      return null;
+                    }
+                  },
+                  style: GoogleFonts.rubik(
+                      textStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500)),
+                  decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(width: 1, color: Colors.green),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(width: 1, color: Colors.green),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      hintText: "Nama",
+                      hintStyle: GoogleFonts.rubik(
+                          textStyle: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500))),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Email Anda",
+                          style: GoogleFonts.roboto(
+                            textStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  textInputAction: TextInputAction.next,
+                  controller: _email,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value!.isEmpty || !value.contains('@')) {
+                      return 'Masukkan email dengan benar';
+                    } else {
+                      return null;
+                    }
+                  },
+                  style: GoogleFonts.rubik(
+                      textStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500)),
+                  decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(width: 1, color: Colors.green),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(width: 1, color: Colors.green),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      hintText: "Email",
+                      hintStyle: GoogleFonts.rubik(
+                          textStyle: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500))),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Password",
+                          style: GoogleFonts.roboto(
+                            textStyle: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  textInputAction: TextInputAction.done,
+                  onEditingComplete: () {
+                    // _submitFormOnLogin();
+                  },
+                  controller: _password,
+                  focusNode: _passFocusNode,
+                  obscureText: _obscureText,
+                  keyboardType: TextInputType.visiblePassword,
+                  validator: (value) {
+                    if (value!.isEmpty || value.length <= 5) {
+                      return 'Masukkan password dengan benar';
+                    } else {
+                      return null;
+                    }
+                  },
+                  style: GoogleFonts.rubik(
+                      textStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500)),
+                  decoration: InputDecoration(
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                        child: Icon(
+                          _obscureText
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.green,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(width: 1, color: Colors.green),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(width: 1, color: Colors.green),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      hintText: "Password",
+                      hintStyle: GoogleFonts.rubik(
+                          textStyle: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500))),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                InkWell(
+                  onTap: () {
+                    signUpUser();
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 60,
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Center(
+                      child: _isLoading
+                          ? CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : Text(
+                              "Registrasi",
+                              style: GoogleFonts.rubik(
+                                  textStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500)),
+                            ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

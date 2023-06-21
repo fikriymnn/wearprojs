@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wearprojs/const/snack_bar.dart';
-import 'package:wearprojs/const/yy.dart';
+
 import 'package:extended_image/extended_image.dart';
 
 import 'package:wearprojs/login.dart';
