@@ -28,11 +28,54 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
   bool isLoading = false;
   bool submitLoading = false;
   String? tingkat;
+  @override
+  void initState() {
+    // TODO: implement initState
+    searchFitnes();
+    super.initState();
+  }
 
   User? user = FirebaseAuth.instance.currentUser;
+  searchFitnes() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      response = await dio.get(
+          "https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises?",
+          options: Options(headers: {
+            'X-RapidAPI-Key':
+                'd9812ad25dmshc5e4602b87baf3dp1db246jsn08b1ed27f455',
+            'X-RapidAPI-Host': 'exercises-by-api-ninjas.p.rapidapi.com'
+          }));
+
+      setState(() {
+        fitnes = response!.data;
+        isLoading = false;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("error"),
+      ));
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
+      DropdownMenuItem(
+          child: Text(
+            "Semua",
+            style: GoogleFonts.roboto(
+              color: Colors.black,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          value: ""),
       DropdownMenuItem(
           child: Text(
             "Pemula",
@@ -42,7 +85,7 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          value: "beginner"),
+          value: "difficulty=beginner"),
       DropdownMenuItem(
           child: Text(
             "Menegah",
@@ -52,7 +95,7 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          value: "intermediate"),
+          value: "difficulty=intermediate"),
       DropdownMenuItem(
           child: Text(
             "Ahli",
@@ -62,7 +105,7 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          value: "expert"),
+          value: "difficulty=expert"),
     ];
     return menuItems;
   }
@@ -198,7 +241,7 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
                           });
 
                           response = await dio.get(
-                              "https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises?difficulty=$tingkat",
+                              "https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises?$tingkat",
                               options: Options(headers: {
                                 'X-RapidAPI-Key':
                                     'd9812ad25dmshc5e4602b87baf3dp1db246jsn08b1ed27f455',

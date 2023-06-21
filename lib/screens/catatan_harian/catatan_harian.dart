@@ -114,8 +114,10 @@ class _CatatanHarianState extends State<CatatanHarian> {
                   final doc = snapshot.data.docs;
 
                   var kaloriHariIni = List.generate(doc.length,
-                          (index) => snapshot.data.docs[index]['calori'])
-                      .reduce((a, b) => a + b);
+                      (index) => snapshot.data.docs[index]['calori']).reduce(
+                    (a, b) => a + b,
+                  );
+
                   return Text(
                     "Kalori terbakar hari ini : $kaloriHariIni",
                     style: GoogleFonts.roboto(

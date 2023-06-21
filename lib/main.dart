@@ -2,10 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wearprojs/btm_bar.dart';
 import 'package:wearprojs/login.dart';
 import 'package:wearprojs/provider/user_provider.dart';
-import 'package:wearprojs/registrasi.dart';
 import 'package:wearprojs/verifikasi.dart';
 
 import 'firebase_options.dart';

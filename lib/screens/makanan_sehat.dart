@@ -29,7 +29,7 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
   Response? response;
 
   var dio = Dio();
-
+  @override
   List food = [];
   bool isLoading = false;
   bool submitLoading = false;
@@ -37,6 +37,41 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
   User? user = FirebaseAuth.instance.currentUser;
 
   TextEditingController cariMakan = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    searchFood("", "5");
+
+    super.initState();
+  }
+
+  searchFood(calories, limit) async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      response = await dio.get(
+          "https://low-carb-recipes.p.rapidapi.com/search?${calories}limit=$limit",
+          options: Options(headers: {
+            'X-RapidAPI-Key':
+                'd9812ad25dmshc5e4602b87baf3dp1db246jsn08b1ed27f455',
+            'X-RapidAPI-Host': 'low-carb-recipes.p.rapidapi.com'
+          }));
+
+      setState(() {
+        food = response!.data;
+        isLoading = false;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("error"),
+      ));
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

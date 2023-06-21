@@ -25,6 +25,7 @@ class _DrawerCustomState extends State<DrawerCustom> {
           TextButton.icon(
               onPressed: () {
                 authInstance.signOut();
+
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const LoginScreen(),
