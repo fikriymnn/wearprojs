@@ -115,7 +115,9 @@ class _CatatanHarianState extends State<CatatanHarian> {
 
                   var kaloriHariIni = List.generate(doc.length,
                       (index) => snapshot.data.docs[index]['calori']).reduce(
-                    (a, b) => a + b,
+                    (a, b) {
+                      return a + b;
+                    },
                   );
 
                   return Text(
