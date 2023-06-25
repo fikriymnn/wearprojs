@@ -64,28 +64,28 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.apple,
-              color: _selectedIndex == 0 ? Colors.purple : Colors.black,
+              color: _selectedIndex == 0 ? Colors.green : Colors.black,
             ),
             label: "Makanan",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.calculate,
-              color: _selectedIndex == 1 ? Colors.purple : Colors.black,
+              color: _selectedIndex == 1 ? Colors.green : Colors.black,
             ),
             label: "Hitung",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.run_circle_rounded,
-              color: _selectedIndex == 2 ? Colors.purple : Colors.black,
+              color: _selectedIndex == 2 ? Colors.green : Colors.black,
             ),
             label: "Olahraga",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.note,
-              color: _selectedIndex == 3 ? Colors.purple : Colors.black,
+              color: _selectedIndex == 3 ? Colors.green : Colors.black,
             ),
             label: "Catatan",
           ),

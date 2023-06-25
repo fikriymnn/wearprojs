@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:google_fonts/google_fonts.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:wearprojs/screens/catatan_harian/kalori_harian.dart';
 import 'package:wearprojs/screens/catatan_harian/makanan_harian.dart';
 import 'package:wearprojs/screens/catatan_harian/olahraga_harian.dart';
 import 'package:intl/intl.dart';
@@ -113,24 +115,53 @@ class _CatatanHarianState extends State<CatatanHarian> {
                   }
                   final doc = snapshot.data.docs;
 
-                  var kaloriHariIni = List.generate(doc.length,
+                  double kaloriHariIni = List.generate(doc.length,
                       (index) => snapshot.data.docs[index]['calori']).reduce(
                     (a, b) {
                       return a + b;
                     },
                   );
 
-                  return Text(
-                    "Kalori terbakar hari ini : $kaloriHariIni",
-                    style: GoogleFonts.roboto(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.normal,
-                    ),
+                  return Column(
+                    children: [
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              KaloriHarianScreens()));
+                                },
+                                child: Text(
+                                  "Detai kalori",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: 15,
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                )),
+                            Icon(
+                              Icons.keyboard_arrow_right,
+                              color: Colors.green,
+                            )
+                          ],
+                        ),
+                      ),
+                      Text(
+                        "Kalori terbakar hari ini : ${kaloriHariIni.toStringAsFixed(2)}",
+                        style: GoogleFonts.roboto(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
                   );
-
-                  // if it has data, do your thing:
-                })
+                }),
           ],
         ),
       ),

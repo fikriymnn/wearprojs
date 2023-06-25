@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:wearprojs/const/snack_bar.dart';
+import 'package:intl/intl.dart';
 
 class EditDataScreens extends StatefulWidget {
   const EditDataScreens(
@@ -21,7 +22,6 @@ class EditDataScreens extends StatefulWidget {
 }
 
 class _EditDataScreensState extends State<EditDataScreens> {
-  final _formKey = GlobalKey<FormState>();
   DateTime _selectedDate = DateTime.now();
 
   String? selectedTujuan;
@@ -31,9 +31,7 @@ class _EditDataScreensState extends State<EditDataScreens> {
   TextEditingController _beratBadanCtrl = TextEditingController();
   TextEditingController _tinggiBadanCtrl = TextEditingController();
 
-  var _obscureText = true;
   bool _isLoading = false;
-  final _passFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -87,9 +85,14 @@ class _EditDataScreensState extends State<EditDataScreens> {
     }
   }
 
+  String selectedDateText(select) {
+    return DateFormat.yMd().format(select);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -101,45 +104,43 @@ class _EditDataScreensState extends State<EditDataScreens> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                updateDataUser();
+              },
+              child: Container(
+                  height: 40,
+                  width: 100,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: Colors.green),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Center(
+                      child: _isLoading
+                          ? CircularProgressIndicator()
+                          : Text(
+                              "Edit",
+                              style: GoogleFonts.roboto(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                    ),
+                  )),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
           child: Column(
             children: [
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        updateDataUser();
-                      },
-                      child: Container(
-                          height: 40,
-                          width: 130,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              color: Colors.green),
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Center(
-                              child: _isLoading
-                                  ? CircularProgressIndicator()
-                                  : Text(
-                                      "Edit",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                            ),
-                          )),
-                    ),
-                  ],
-                ),
-              ),
               SizedBox(
                 height: 20,
               ),
@@ -148,7 +149,7 @@ class _EditDataScreensState extends State<EditDataScreens> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Apakah Jenis Kelamin Anda",
+                      "Jenis Kelamin",
                       style: GoogleFonts.roboto(
                         textStyle: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
@@ -160,20 +161,115 @@ class _EditDataScreensState extends State<EditDataScreens> {
               SizedBox(
                 height: 20,
               ),
-              _buildSelectorKelamin(
-                context: context,
-                name: 'Laki - Laki',
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: _buildSelectorKelamin(
+                        context: context,
+                        name: 'Laki - Laki',
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: _buildSelectorKelamin(
+                        context: context,
+                        name: 'Perempuan',
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 10),
-              _buildSelectorKelamin(
-                context: context,
-                name: 'Perempuan',
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: Container(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      "Berat Badan",
+                                      style: GoogleFonts.roboto(
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          _buildTextField2(
+                              controller: _beratBadanCtrl,
+                              labelText: "Berat Badan (KG)",
+                              validator: (value) {
+                                return null;
+                              }),
+                        ],
+                      ),
+                    )),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Expanded(
+                        child: Container(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0),
+                            child: Container(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      "Tinggi Badan",
+                                      style: GoogleFonts.roboto(
+                                        textStyle: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          _buildTextField2(
+                              controller: _tinggiBadanCtrl,
+                              labelText: "Tinggi Badan (CM)",
+                              validator: (value) {
+                                return null;
+                              }),
+                        ],
+                      ),
+                    ))
+                  ],
+                ),
               ),
               SizedBox(
                 height: 30,
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 40),
+                padding: const EdgeInsets.only(top: 0),
                 child: Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -192,94 +288,48 @@ class _EditDataScreensState extends State<EditDataScreens> {
               SizedBox(
                 height: 20,
               ),
-              _buildSelectorAktivitas(
-                  name: "Jarang Sekali",
-                  subtitle:
-                      "Kegiatan sehari hari yang membutuhkan sedikit usaha seperti beristirahat, kerja di belakang meja, atau mengemudi."),
-              SizedBox(
-                height: 10,
-              ),
-              _buildSelectorAktivitas(
-                  name: "Sedikit Aktif",
-                  subtitle:
-                      "Kegiatan sehari hari yang membutuhkan beberapa upaya seperti berdiri secara berkala, pekerjaan rumah, atau latihan ringan"),
-              SizedBox(
-                height: 10,
-              ),
-              _buildSelectorAktivitas(
-                  name: "Aktif",
-                  subtitle:
-                      "Kegiatan sehari hari yang membutuhkan upaya yang wajar seperti berdiri, kerja fisik atau olahraga ringan secara teratur."),
-              SizedBox(
-                height: 10,
-              ),
-              _buildSelectorAktivitas(
-                  name: "Sangat Aktif",
-                  subtitle:
-                      "Kegiatan sehari hari yang membutuhkan upaya yang tinggi seperti pekerjaan konstruksi atau olahraga berat secara teratur."),
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 40),
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          "Berapakah Berat Badan Anda Saat Ini?",
-                          style: GoogleFonts.roboto(
-                            textStyle: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+              Container(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: _buildSelectorAktivitas(
+                          name: "Jarang Sekali", subtitle: ""),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Expanded(
+                      child: _buildSelectorAktivitas(
+                          name: "Sedikit Aktif", subtitle: ""),
+                    )
+                  ],
                 ),
               ),
               SizedBox(
                 height: 15,
               ),
-              _buildTextField2(
-                  controller: _beratBadanCtrl,
-                  labelText: "Berat Badan Anda Dalam Satuan Kilogram (KG)",
-                  validator: (value) {}),
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 40),
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          "Berapakah Tinggi Badan Anda Saat Ini?",
-                          style: GoogleFonts.roboto(
-                            textStyle: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+              Container(
+                child: Row(
+                  children: [
+                    Expanded(
+                      child:
+                          _buildSelectorAktivitas(name: "Aktif", subtitle: ""),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Expanded(
+                      child: _buildSelectorAktivitas(
+                          name: "Sangat Aktif", subtitle: ""),
+                    )
+                  ],
                 ),
               ),
               SizedBox(
-                height: 15,
-              ),
-              _buildTextField2(
-                  controller: _tinggiBadanCtrl,
-                  labelText: "Tinggi Badan Anda Dalam Satuan Sentimeter (CM)",
-                  validator: (value) {}),
-              SizedBox(
                 height: 30,
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 40),
+                padding: const EdgeInsets.only(top: 0),
                 child: Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -298,13 +348,56 @@ class _EditDataScreensState extends State<EditDataScreens> {
               SizedBox(
                 height: 20,
               ),
-              SfDateRangePicker(
-                onSelectionChanged: _onSelectionChanged,
-                selectionMode: DateRangePickerSelectionMode.single,
-                initialSelectedRange:
-                    PickerDateRange(_selectedDate, _selectedDate),
-              ),
-              Text('Selected date: $_selectedDate'),
+              Container(
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        DateTime? pickDate = await showDatePicker(
+                            context: context,
+                            initialDate: _selectedDate,
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(3000));
+
+                        if (pickDate != null) {
+                          setState(() {
+                            _selectedDate = pickDate;
+                          });
+                        }
+                      },
+                      child: Container(
+                          height: 35,
+                          width: 120,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: Colors.green),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Center(
+                              child: Text(
+                                "Pilih Tanggal",
+                                style: GoogleFonts.roboto(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                          )),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      "${DateFormat("dd/MMMM/yyyy").format(_selectedDate)}",
+                      style: GoogleFonts.roboto(
+                        textStyle: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -338,9 +431,26 @@ class _EditDataScreensState extends State<EditDataScreens> {
       padding: const EdgeInsets.only(bottom: 20.0),
       child: TextFormField(
         keyboardType: TextInputType.number,
+        style: GoogleFonts.rubik(
+            textStyle: const TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+                fontWeight: FontWeight.w500)),
         decoration: InputDecoration(
-          labelText: labelText,
-        ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(width: 1, color: Colors.green),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(width: 1, color: Colors.green),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            hintText: labelText,
+            hintStyle: GoogleFonts.rubik(
+                textStyle: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500))),
         validator: validator,
         controller: controller,
       ),
@@ -392,11 +502,12 @@ class _EditDataScreensState extends State<EditDataScreens> {
       duration: Duration(milliseconds: 200),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
-        color: isActive ? Colors.grey : Colors.transparent,
+        color: isActive ? Colors.green : Colors.transparent,
         border: Border.all(
-          width: 0,
+          width: 1,
+          color: isActive ? Colors.green : Colors.black,
         ),
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(5),
       ),
       child: RadioListTile(
         value: name,
@@ -409,9 +520,11 @@ class _EditDataScreensState extends State<EditDataScreens> {
         },
         title: Text(
           name,
-          style: TextStyle(
-            color: isActive ? Colors.white : Colors.black,
-          ),
+          style: GoogleFonts.rubik(
+              textStyle: TextStyle(
+                  color: isActive ? Colors.white : Colors.black,
+                  fontSize: 13,
+                  fontWeight: isActive ? FontWeight.bold : FontWeight.w600)),
         ),
       ),
     );
@@ -425,11 +538,12 @@ class _EditDataScreensState extends State<EditDataScreens> {
       duration: Duration(milliseconds: 200),
       curve: Curves.easeInOut,
       decoration: BoxDecoration(
-        color: isActive ? Colors.grey : Colors.transparent,
+        color: isActive ? Colors.green : Colors.transparent,
         border: Border.all(
-          width: 0,
+          width: 1,
+          color: isActive ? Colors.green : Colors.black,
         ),
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(5),
       ),
       child: RadioListTile(
         value: name,
@@ -445,14 +559,12 @@ class _EditDataScreensState extends State<EditDataScreens> {
           children: [
             Text(
               name,
-              style: TextStyle(
-                color: isActive ? Colors.white : Colors.black,
-              ),
-            ),
-            Text(
-              subtitle,
-              style: TextStyle(
-                  color: isActive ? Colors.white : Colors.black, fontSize: 12),
+              style: GoogleFonts.rubik(
+                  textStyle: TextStyle(
+                      color: isActive ? Colors.white : Colors.black,
+                      fontSize: 13,
+                      fontWeight:
+                          isActive ? FontWeight.bold : FontWeight.w600)),
             ),
           ],
         ),

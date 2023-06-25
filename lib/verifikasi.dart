@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:wearprojs/btm_bar.dart';
 import 'package:wearprojs/const/snack_bar.dart';
+import 'package:wearprojs/login.dart';
 
 class VerifikasiScreen extends StatefulWidget {
   const VerifikasiScreen({super.key});
@@ -54,7 +55,9 @@ class _VerifikasiScreenState extends State<VerifikasiScreen> {
       await Future.delayed(Duration(seconds: 5));
       setState(() => canResentEmail = true);
     } catch (e) {
-      showSnackBar(context, e.toString());
+      if (mounted) {
+        showSnackBar(context, e.toString());
+      }
     }
   }
 
@@ -92,6 +95,9 @@ class _VerifikasiScreenState extends State<VerifikasiScreen> {
                 ),
                 ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
+                        backgroundColor: canResentEmail
+                            ? Colors.green
+                            : Colors.black.withOpacity(0.10),
                         minimumSize: Size.fromHeight(50)),
                     onPressed: canResentEmail ? sendVerifikasiEmail : null,
                     icon: Icon(
@@ -114,6 +120,10 @@ class _VerifikasiScreenState extends State<VerifikasiScreen> {
                         minimumSize: Size.fromHeight(50)),
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()));
                     },
                     child: Text(
                       "Cancle",

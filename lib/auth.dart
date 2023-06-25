@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:wearprojs/model/user_model.dart' as model;
 
 import 'const/firebase_const.dart';
@@ -31,7 +29,7 @@ class AuthMethods {
   }) async {
     String res = "Some error Occurred";
     try {
-      if (email != null && email.isNotEmpty) {
+      if (email.isNotEmpty) {
         // registering user in auth with email and password
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
           email: email,

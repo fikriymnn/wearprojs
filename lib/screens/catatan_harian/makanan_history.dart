@@ -15,6 +15,11 @@ class MakananHistoryScreens extends StatefulWidget {
 class _MakananHistoryScreensState extends State<MakananHistoryScreens> {
   TextEditingController dateController = TextEditingController();
   String addDate = "";
+  DateTime _selectDate = DateTime.now();
+
+  String selectedDateText(select) {
+    return DateFormat.yMd().format(select);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,20 +42,40 @@ class _MakananHistoryScreensState extends State<MakananHistoryScreens> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                height: 40,
-                child: TextField(
-                  controller: dateController,
-                  cursorColor: Colors.green,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'cari berdasarkan tanggal'),
-                  onChanged: (value) {
+              InkWell(
+                onTap: () async {
+                  DateTime? pickDate = await showDatePicker(
+                      context: context,
+                      initialDate: _selectDate,
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(3000));
+
+                  if (pickDate != null) {
                     setState(() {
-                      addDate = value;
+                      _selectDate = pickDate;
+                      addDate = selectedDateText(_selectDate);
                     });
-                  },
-                ),
+                  }
+                },
+                child: Container(
+                    height: 40,
+                    width: 200,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.green),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Center(
+                        child: Text(
+                          "Pilih Tanggal",
+                          style: GoogleFonts.roboto(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                    )),
               ),
               SizedBox(
                 height: 15,

@@ -2,12 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:wearprojs/btm_bar.dart';
 import 'package:wearprojs/const/snack_bar.dart';
+import 'package:wearprojs/forget_pass.dart';
 import 'package:wearprojs/registrasi.dart';
+import 'package:wearprojs/verifikasi.dart';
 
 import 'const/firebase_const.dart';
 
@@ -21,7 +22,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailTextController = TextEditingController();
   final _passTextController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+
   final _passFocusNode = FocusNode();
   var _obscureText = true;
   @override
@@ -35,8 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   Future<void> _submitFormOnLogin() async {
-    final isValid = _formKey.currentState;
-    User? user = FirebaseAuth.instance.currentUser;
     FocusScope.of(context).unfocus();
 
     try {
@@ -47,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // ignore: use_build_context_synchronously
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => BottomBarScreen(),
+        builder: (context) => VerifikasiScreen(),
       ));
 
       print('Successfully logged in');
@@ -82,7 +81,16 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 200,
+                  height: 100,
+                ),
+                Text("LOGIN",
+                    style: GoogleFonts.rubik(
+                        textStyle: const TextStyle(
+                            color: Colors.green,
+                            fontSize: 50,
+                            fontWeight: FontWeight.w500))),
+                SizedBox(
+                  height: 40,
                 ),
                 TextFormField(
                   textInputAction: TextInputAction.next,
@@ -185,11 +193,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       TextButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             ForgetPasswordScreen()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ForgetPasswordScreen()));
                           },
                           child: Text("Lupa Password?",
                               style: GoogleFonts.poppins(

@@ -4,13 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
 import 'package:wearprojs/const/snack_bar.dart';
 import 'package:intl/intl.dart';
-
-import '../model/user_model.dart';
 
 class DaftarOlahraga extends StatefulWidget {
   const DaftarOlahraga({super.key});
@@ -136,8 +134,7 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
                           final heartRate = double.parse(snapshot
                               .data.docs[index]['heartRate']
                               .toString());
-                          final Calories = double.parse(
-                              snapshot.data.docs[index]['kalori'].toString());
+                          double Calories = snapshot.data.docs[index]['kalori'];
                           return Column(
                             children: [
                               Container(
@@ -177,7 +174,7 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
                                       ),
                                     ),
                                     Text(
-                                      Calories.toString(),
+                                      Calories.toStringAsFixed(2),
                                       style: GoogleFonts.roboto(
                                         color: Colors.black,
                                         fontSize: 20,
