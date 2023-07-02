@@ -104,7 +104,7 @@ class _KaloriHarianScreensState extends State<KaloriHarianScreens> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Calori : ${calori.toStringAsFixed(3)}",
+                                          "Calori : ${calori}",
                                           style: GoogleFonts.roboto(
                                             color: Colors.black,
                                             fontSize: 15,

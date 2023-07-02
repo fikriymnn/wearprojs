@@ -115,12 +115,13 @@ class _CatatanHarianState extends State<CatatanHarian> {
                   }
                   final doc = snapshot.data.docs;
 
-                  double kaloriHariIni = List.generate(doc.length,
-                      (index) => snapshot.data.docs[index]['calori']).reduce(
-                    (a, b) {
-                      return a + b;
-                    },
-                  );
+                  var kaloriHariIni = List.generate(doc.length, (index) {
+                    double x = doc[index]['calori'];
+                    String z = x.toStringAsFixed(0);
+                    int a = int.parse(z);
+
+                    return a;
+                  }).fold(0, (p, c) => p + c);
 
                   return Column(
                     children: [
@@ -152,7 +153,7 @@ class _CatatanHarianState extends State<CatatanHarian> {
                         ),
                       ),
                       Text(
-                        "Kalori terbakar hari ini : ${kaloriHariIni.toStringAsFixed(2)}",
+                        "Kalori terbakar hari ini : ${kaloriHariIni.toStringAsFixed(0)}",
                         style: GoogleFonts.roboto(
                           fontSize: 20,
                           color: Colors.black,

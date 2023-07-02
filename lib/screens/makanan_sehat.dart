@@ -83,9 +83,13 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
           // if it has data, do your thing:
           final doc = snapshot.data.docs;
 
-          double kaloriHariIni = List.generate(
-                  doc.length, (index) => snapshot.data.docs[index]['calori'])
-              .reduce((a, b) => a + b);
+          var kaloriHariIni = List.generate(doc.length, (index) {
+            double x = doc[index]['calori'];
+            String z = x.toStringAsFixed(0);
+            int a = int.parse(z);
+
+            return a;
+          }).fold(0, (p, c) => p + c);
 
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -107,7 +111,7 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
                         ),
                         Flexible(
                           child: Text(
-                            "${kaloriHariIni.toStringAsFixed(2)}",
+                            "${kaloriHariIni.toStringAsFixed(0)}",
                             style: GoogleFonts.roboto(
                               color: Colors.black,
                               fontSize: 20,
