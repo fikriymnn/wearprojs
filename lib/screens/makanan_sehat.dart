@@ -56,9 +56,7 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
         isLoading = false;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("error"),
-      ));
+      SnackBar(content: Text("Error"));
       setState(() {
         isLoading = false;
       });
@@ -122,6 +120,38 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection("akun")
+                          .where('uid',
+                              isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(child: Text("no data"));
+                        } else {
+                          var docsk = snapshot.data!.docs;
+
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: docsk.length,
+                              itemBuilder: (context, index) {
+                                String hasilBmr =
+                                    docsk[index]['hasilBmr'].toString();
+                                return Text(
+                                  "Kebutuhan kalori harian : " + hasilBmr,
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                );
+                              });
+                        }
+                      }),
                   SizedBox(
                     height: 10,
                   ),

@@ -135,6 +135,8 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
                               .data.docs[index]['heartRate']
                               .toString());
                           double Calories = snapshot.data.docs[index]['kalori'];
+                          String hasilBmr =
+                              snapshot.data.docs[index]['hasilBmr'].toString();
                           return Column(
                             children: [
                               Container(
@@ -184,6 +186,17 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
                                   ],
                                 ),
                               ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Kebutuhan kalori harian : " + hasilBmr,
+                                style: GoogleFonts.roboto(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
                             ],
                           );
                         });

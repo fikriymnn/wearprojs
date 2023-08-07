@@ -125,7 +125,7 @@ class _MakananHistoryScreensState extends State<MakananHistoryScreens> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          width: 200,
+                                          width: 170,
                                           child: Row(
                                             children: [
                                               Flexible(

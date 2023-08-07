@@ -27,6 +27,38 @@ class _CatatanHarianState extends State<CatatanHarian> {
         padding: const EdgeInsets.all(15),
         child: Column(
           children: [
+            StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection("akun")
+                    .where('uid',
+                        isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: Text("no data"));
+                  } else {
+                    var docsk = snapshot.data!.docs;
+
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: docsk.length,
+                        itemBuilder: (context, index) {
+                          String hasilBmr = docsk[index]['hasilBmr'].toString();
+                          return Text(
+                            "Kebutuhan kalori harian : " + hasilBmr,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.roboto(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          );
+                        });
+                  }
+                }),
+            SizedBox(
+              height: 15,
+            ),
             SizedBox(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -124,6 +156,7 @@ class _CatatanHarianState extends State<CatatanHarian> {
                   }).fold(0, (p, c) => p + c);
 
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
                         child: Row(
@@ -159,6 +192,9 @@ class _CatatanHarianState extends State<CatatanHarian> {
                           color: Colors.black,
                           fontWeight: FontWeight.normal,
                         ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                     ],
                   );

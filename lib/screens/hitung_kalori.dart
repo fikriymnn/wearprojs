@@ -224,16 +224,22 @@ class _HitungKaloriState extends State<HitungKalori> {
                                     ),
                                     Container(
                                         width: 190,
-                                        child: Text(
-                                          hasilBmi == 0
-                                              ? ""
-                                              : "${hasilBmi.toStringAsFixed(3)} " +
-                                                  "(${kategoriBmi})",
-                                          style: GoogleFonts.roboto(
-                                            fontSize: 15,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                        child: Row(
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                hasilBmi == 0
+                                                    ? ""
+                                                    : "${hasilBmi.toStringAsFixed(3)} " +
+                                                        "(${kategoriBmi})",
+                                                style: GoogleFonts.roboto(
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ))
                                   ],
                                 ),
@@ -243,6 +249,7 @@ class _HitungKaloriState extends State<HitungKalori> {
                               ),
                               Container(
                                 child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
                                         width: 130,
@@ -334,17 +341,19 @@ class _HitungKaloriState extends State<HitungKalori> {
                               Container(
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
                                       child: Column(
                                         children: [
                                           Container(
-                                            width: 120,
+                                            width: 110,
                                             height: 40,
                                             child: Text(
                                               "Usia",
                                               style: GoogleFonts.roboto(
-                                                fontSize: 20,
+                                                fontSize: 18,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -354,12 +363,12 @@ class _HitungKaloriState extends State<HitungKalori> {
                                             height: 20,
                                           ),
                                           Container(
-                                            width: 120,
+                                            width: 110,
                                             height: 40,
                                             child: Text(
                                               "Tinggi Badan",
                                               style: GoogleFonts.roboto(
-                                                fontSize: 20,
+                                                fontSize: 18,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -369,12 +378,12 @@ class _HitungKaloriState extends State<HitungKalori> {
                                             height: 20,
                                           ),
                                           Container(
-                                            width: 120,
+                                            width: 110,
                                             height: 40,
                                             child: Text(
                                               "Berat Badan",
                                               style: GoogleFonts.roboto(
-                                                fontSize: 20,
+                                                fontSize: 18,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -384,12 +393,12 @@ class _HitungKaloriState extends State<HitungKalori> {
                                             height: 20,
                                           ),
                                           Container(
-                                            width: 120,
+                                            width: 110,
                                             height: 40,
                                             child: Text(
                                               "Aktivitas",
                                               style: GoogleFonts.roboto(
-                                                fontSize: 20,
+                                                fontSize: 18,
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -397,9 +406,6 @@ class _HitungKaloriState extends State<HitungKalori> {
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 50,
                                     ),
                                     Container(
                                       child: Column(

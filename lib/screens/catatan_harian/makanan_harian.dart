@@ -80,6 +80,38 @@ class _MakananHarianScreensState extends State<MakananHarianScreens> {
                     }
                     // if it has data, do your thing:
                     final doc = snapshot.data.docs;
+                    var kaloriHariIni = List.generate(doc.length, (index) {
+                      double x = doc[index]['kalori'];
+                      String z = x.toStringAsFixed(0);
+                      int a = int.parse(z);
+
+                      return a;
+                    }).fold(0, (p, c) => p + c);
+                    return Text(
+                      "Kalori masuk hari ini : " + kaloriHariIni.toString(),
+                      style: GoogleFonts.roboto(
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    );
+                  }),
+              SizedBox(
+                height: 15,
+              ),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('akun')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection('makanan')
+                      .where('date', isEqualTo: dateAdd)
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(child: Text("no data"));
+                    }
+                    // if it has data, do your thing:
+                    final doc = snapshot.data.docs;
                     return ListView.builder(
                         itemCount: doc.length,
                         shrinkWrap: true,
@@ -112,7 +144,7 @@ class _MakananHarianScreensState extends State<MakananHarianScreens> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Container(
-                                        width: 200,
+                                        width: 170,
                                         child: Row(
                                           children: [
                                             Flexible(
