@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
+import 'package:wearprojs/const/notif_service.dart';
 import 'package:wearprojs/const/snack_bar.dart';
 import 'package:intl/intl.dart';
 
@@ -29,6 +32,7 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
   @override
   void initState() {
     // TODO: implement initState
+
     searchFitnes();
     super.initState();
   }
@@ -134,9 +138,20 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
                           final heartRate = double.parse(snapshot
                               .data.docs[index]['heartRate']
                               .toString());
+                          int umur = snapshot.data.docs[index]['myAge'];
+                          var batasHeartRate = 220 - umur;
                           double Calories = snapshot.data.docs[index]['kalori'];
                           String hasilBmr =
                               snapshot.data.docs[index]['hasilBmr'].toString();
+                          print(batasHeartRate);
+
+                          if (heartRate >= batasHeartRate) {
+                            NotificationService().showNotification(
+                              title: "Peringatan !!",
+                              body: "Detah jantung sudah melebihi batas",
+                            );
+                          }
+
                           return Column(
                             children: [
                               Container(

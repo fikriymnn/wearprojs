@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:google_fonts/google_fonts.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+
 import 'package:wearprojs/screens/catatan_harian/kalori_harian.dart';
 import 'package:wearprojs/screens/catatan_harian/makanan_harian.dart';
 import 'package:wearprojs/screens/catatan_harian/olahraga_harian.dart';

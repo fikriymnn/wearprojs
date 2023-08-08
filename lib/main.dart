@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wearprojs/const/notif_service.dart';
 import 'package:wearprojs/login.dart';
 import 'package:wearprojs/provider/user_provider.dart';
 import 'package:wearprojs/verifikasi.dart';
@@ -10,6 +11,8 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotification();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
