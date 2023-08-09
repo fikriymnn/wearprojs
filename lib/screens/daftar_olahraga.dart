@@ -204,15 +204,28 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
                               SizedBox(
                                 height: 10,
                               ),
-                              Text(
-                                "Kebutuhan kalori harian : " +
-                                    hasilBmr.toStringAsFixed(3),
-                                style: GoogleFonts.roboto(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Kebutuhan kalori harian : ",
+                                      style: GoogleFonts.roboto(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      hasilBmr.toStringAsFixed(3),
+                                      style: GoogleFonts.roboto(
+                                        color: Colors.black,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              )
+                              ),
                             ],
                           );
                         });
