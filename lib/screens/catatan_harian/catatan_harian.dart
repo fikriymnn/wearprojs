@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:wearprojs/const/notif_service.dart';
 
 import 'package:wearprojs/screens/catatan_harian/kalori_harian.dart';
 import 'package:wearprojs/screens/catatan_harian/makanan_harian.dart';
@@ -43,9 +44,23 @@ class _CatatanHarianState extends State<CatatanHarian> {
                         shrinkWrap: true,
                         itemCount: docsk.length,
                         itemBuilder: (context, index) {
-                          String hasilBmr = docsk[index]['hasilBmr'].toString();
+                          double hasilBmr = docsk[index]['hasilBmr'];
+                          final heartRate = double.parse(
+                              docsk[index]['heartRate'].toString());
+                          int umur = docsk[index]['myAge'];
+                          var batasHeartRate = 220 - umur;
+
+                          print(batasHeartRate);
+
+                          if (heartRate >= batasHeartRate) {
+                            NotificationService().showNotification(
+                              title: "Peringatan !!",
+                              body: "Detah jantung sudah melebihi batas",
+                            );
+                          }
                           return Text(
-                            "Kebutuhan kalori harian : " + hasilBmr,
+                            "Kebutuhan kalori harian : " +
+                                hasilBmr.toStringAsFixed(3),
                             textAlign: TextAlign.center,
                             style: GoogleFonts.roboto(
                               color: Colors.black,

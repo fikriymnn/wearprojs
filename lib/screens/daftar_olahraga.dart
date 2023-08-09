@@ -141,8 +141,8 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
                           int umur = snapshot.data.docs[index]['myAge'];
                           var batasHeartRate = 220 - umur;
                           double Calories = snapshot.data.docs[index]['kalori'];
-                          String hasilBmr =
-                              snapshot.data.docs[index]['hasilBmr'].toString();
+                          double hasilBmr =
+                              snapshot.data.docs[index]['hasilBmr'];
                           print(batasHeartRate);
 
                           if (heartRate >= batasHeartRate) {
@@ -205,7 +205,8 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
                                 height: 10,
                               ),
                               Text(
-                                "Kebutuhan kalori harian : " + hasilBmr,
+                                "Kebutuhan kalori harian : " +
+                                    hasilBmr.toStringAsFixed(3),
                                 style: GoogleFonts.roboto(
                                   color: Colors.black,
                                   fontSize: 20,

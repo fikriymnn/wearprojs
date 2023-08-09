@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:intl/intl.dart';
+import 'package:wearprojs/const/notif_service.dart';
 import 'package:wearprojs/screens/edit_screens.dart';
 
 import '../const/firebase_const.dart';
@@ -147,9 +148,23 @@ class _HitungKaloriState extends State<HitungKalori> {
                   String tinggiBadan = docsk[index]['tinggiBadan'];
                   String kelamin = docsk[index]['kelamin'];
                   String tingkatAktivitas = docsk[index]['tingkatAktivitas'];
-                  String hasilBmr = docsk[index]['hasilBmr'].toString();
+                  double hasilBmr = docsk[index]['hasilBmr'];
                   double hasilBmi = docsk[index]['bmi'];
                   String kategoriBmi = docsk[index]['katBmi'];
+
+                  final heartRate =
+                      double.parse(docsk[index]['heartRate'].toString());
+                  int umur = docsk[index]['myAge'];
+                  var batasHeartRate = 220 - umur;
+
+                  print(batasHeartRate);
+
+                  if (heartRate >= batasHeartRate) {
+                    NotificationService().showNotification(
+                      title: "Peringatan !!",
+                      body: "Detah jantung sudah melebihi batas",
+                    );
+                  }
 
                   return beratBadan == "" ||
                           tinggiBadan == "" ||
@@ -269,7 +284,9 @@ class _HitungKaloriState extends State<HitungKalori> {
                                         width: 160,
                                         height: 30,
                                         child: Text(
-                                          hasilBmr == 0 ? "" : hasilBmr,
+                                          hasilBmr.toStringAsFixed(3) == 0
+                                              ? ""
+                                              : hasilBmr.toStringAsFixed(3),
                                           style: GoogleFonts.roboto(
                                             fontSize: 15,
                                             color: Colors.black,

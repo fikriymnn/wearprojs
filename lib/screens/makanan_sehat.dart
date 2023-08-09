@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
+import 'package:wearprojs/const/notif_service.dart';
 import 'package:wearprojs/const/snack_bar.dart';
 
 import 'package:extended_image/extended_image.dart';
@@ -139,10 +140,23 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
                               shrinkWrap: true,
                               itemCount: docsk.length,
                               itemBuilder: (context, index) {
-                                String hasilBmr =
-                                    docsk[index]['hasilBmr'].toString();
+                                double hasilBmr = docsk[index]['hasilBmr'];
+                                final heartRate = double.parse(
+                                    docsk[index]['heartRate'].toString());
+                                int umur = docsk[index]['myAge'];
+                                var batasHeartRate = 220 - umur;
+
+                                print(batasHeartRate);
+
+                                if (heartRate >= batasHeartRate) {
+                                  NotificationService().showNotification(
+                                    title: "Peringatan !!",
+                                    body: "Detah jantung sudah melebihi batas",
+                                  );
+                                }
                                 return Text(
-                                  "Kebutuhan kalori harian : " + hasilBmr,
+                                  "Kebutuhan kalori harian : " +
+                                      hasilBmr.toStringAsFixed(3),
                                   style: GoogleFonts.roboto(
                                     color: Colors.black,
                                     fontSize: 20,
