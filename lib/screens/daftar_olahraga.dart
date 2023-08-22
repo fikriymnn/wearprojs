@@ -57,9 +57,6 @@ class _DaftarOlahragaState extends State<DaftarOlahraga> {
         isLoading = false;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("error"),
-      ));
       setState(() {
         isLoading = false;
       });

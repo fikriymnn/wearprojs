@@ -49,10 +49,13 @@ class AuthMethods {
           tinggkatAktivitas: "",
           bmi: 0,
           bmr: 0,
-          hasilBmr: "",
+          hasilBmr: 0,
           kalori: 0,
           katBmi: "",
-          myAge: "",
+          kaloriMalam: "0",
+          kaloriPagi: "0",
+          kaloriSiang: "0",
+          myAge: 0,
         );
 
         // adding user in our database

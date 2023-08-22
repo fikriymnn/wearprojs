@@ -14,8 +14,11 @@ class UserModel {
   final double bmr;
   final double kalori;
   final String katBmi;
-  final String myAge;
-  final String hasilBmr;
+  final double myAge;
+  final double hasilBmr;
+  final String kaloriPagi;
+  final String kaloriSiang;
+  final String kaloriMalam;
 
   final Timestamp createdAt;
 
@@ -35,7 +38,10 @@ class UserModel {
       required this.kalori,
       required this.katBmi,
       required this.myAge,
-      required this.hasilBmr});
+      required this.hasilBmr,
+      required this.kaloriMalam,
+      required this.kaloriPagi,
+      required this.kaloriSiang});
 
   static UserModel fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
@@ -56,7 +62,10 @@ class UserModel {
         hasilBmr: snapshot['hasilBmr'],
         kalori: snapshot['kalori'],
         katBmi: snapshot['katBmi'],
-        myAge: snapshot['myAge']);
+        myAge: snapshot['myAge'],
+        kaloriMalam: snapshot['kaloriMalam'],
+        kaloriPagi: snapshot['kaloriPagi'],
+        kaloriSiang: snapshot['kaloriSiang']);
   }
 
   Map<String, dynamic> toJson() => {
@@ -75,6 +84,9 @@ class UserModel {
         "kalori": kalori,
         "katBmi": katBmi,
         "myAge": myAge,
+        "kaloriSiang": kaloriSiang,
+        "kaloriPagi": kaloriPagi,
+        "kaloriMalam": kaloriMalam,
         "createdAt": Timestamp.now()
       };
 }

@@ -23,6 +23,7 @@ class _HitungKaloriState extends State<HitungKalori> {
 
   final String hasilBmr = "";
   String myAge = "";
+  String tingkatAct = "";
 
   double Bmi = 0;
   double Bmr = 0;
@@ -123,6 +124,28 @@ class _HitungKaloriState extends State<HitungKalori> {
     }
   }
 
+  hitungAktivitas(
+    dynamic kalori,
+  ) {
+    if (kalori < 100) {
+      setState(() {
+        tingkatAct = "Jarang Sekali";
+      });
+    } else if (kalori > 100 || kalori < 300) {
+      setState(() {
+        tingkatAct = "Sedikit Aktif";
+      });
+    } else if (kalori > 300 || kalori < 500) {
+      setState(() {
+        tingkatAct = "Aktif";
+      });
+    } else if (kalori > 500) {
+      setState(() {
+        tingkatAct = "Sangat Aktif";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -147,6 +170,7 @@ class _HitungKaloriState extends State<HitungKalori> {
                   String beratBadan = docsk[index]['beratBadan'];
                   String tinggiBadan = docsk[index]['tinggiBadan'];
                   String kelamin = docsk[index]['kelamin'];
+
                   String tingkatAktivitas = docsk[index]['tingkatAktivitas'];
                   double hasilBmr = docsk[index]['hasilBmr'];
                   double hasilBmi = docsk[index]['bmi'];

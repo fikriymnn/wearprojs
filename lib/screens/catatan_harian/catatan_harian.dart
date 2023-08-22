@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import 'package:wearprojs/screens/catatan_harian/kalori_harian.dart';
 import 'package:wearprojs/screens/catatan_harian/makanan_harian.dart';
 import 'package:wearprojs/screens/catatan_harian/olahraga_harian.dart';
 import 'package:intl/intl.dart';
+import 'package:wearprojs/screens/hitung_kalori.dart';
 
 class CatatanHarian extends StatefulWidget {
   const CatatanHarian({super.key});
@@ -19,6 +22,53 @@ class CatatanHarian extends StatefulWidget {
 }
 
 class _CatatanHarianState extends State<CatatanHarian> {
+  String tingkatAct = "yo";
+
+  Function? click;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Timer.periodic(Duration(seconds: 1), (Timer t) {
+      click!.call();
+    });
+
+    super.initState();
+  }
+
+  hitungAktivitas(
+    dynamic kalori,
+  ) {
+    if (kalori < 100) {
+      setState(() {
+        tingkatAct = "Jarang Sekali";
+      });
+    } else if (kalori > 100 && kalori < 300) {
+      setState(() {
+        tingkatAct = "Sedikit Aktif";
+      });
+    } else if (kalori > 300 && kalori < 500) {
+      setState(() {
+        tingkatAct = "Aktif";
+      });
+    } else if (kalori > 500) {
+      setState(() {
+        tingkatAct = "Sangat Aktif";
+      });
+    }
+  }
+
+  void uploadTingkat() {
+    if (DateFormat.jm().format(DateTime.now()) == "11:58 AM") {
+      FirebaseFirestore.instance
+          .collection("akun")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({
+        'tingkatAktivitas': tingkatAct,
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     DateTime tsdate = DateTime.now();
@@ -49,8 +99,6 @@ class _CatatanHarianState extends State<CatatanHarian> {
                               docsk[index]['heartRate'].toString());
                           int umur = docsk[index]['myAge'];
                           var batasHeartRate = 220 - umur;
-
-                          print(batasHeartRate);
 
                           if (heartRate >= batasHeartRate) {
                             NotificationService().showNotification(
@@ -211,6 +259,21 @@ class _CatatanHarianState extends State<CatatanHarian> {
                       SizedBox(
                         height: 10,
                       ),
+                      TextButton(
+                          onPressed: click = () async {
+                            await hitungAktivitas(kaloriHariIni);
+                            uploadTingkat();
+
+                            print(tingkatAct);
+                          },
+                          child: Text(
+                            "Hitung",
+                            style: GoogleFonts.roboto(
+                              fontSize: 15,
+                              color: Colors.green,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          )),
                     ],
                   );
                 }),
