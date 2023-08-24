@@ -40,26 +40,49 @@ class _CatatanHarianState extends State<CatatanHarian> {
     dynamic kalori,
   ) {
     if (kalori < 100) {
-      setState(() {
-        tingkatAct = "Jarang Sekali";
-      });
+      if (this.mounted) {
+  setState(() {
+     tingkatAct = "Jarang Sekali";
+    // Your state change code goes here
+  });
+}
+     
     } else if (kalori > 100 && kalori < 300) {
-      setState(() {
-        tingkatAct = "Sedikit Aktif";
-      });
+        if (this.mounted) {
+  setState(() {
+    tingkatAct = "Sedikit Aktif";
+    // Your state change code goes here
+  });
+}
+      
     } else if (kalori > 300 && kalori < 500) {
-      setState(() {
-        tingkatAct = "Aktif";
-      });
+       if (this.mounted) {
+  setState(() {
+   tingkatAct = "Aktif";
+    // Your state change code goes here
+  });
+}
     } else if (kalori > 500) {
-      setState(() {
-        tingkatAct = "Sangat Aktif";
-      });
+           if (this.mounted) {
+  setState(() {
+   tingkatAct = "Sangat Aktif";
+    // Your state change code goes here
+  });
+}
+      
+    }else{
+            if (this.mounted) {
+  setState(() {
+   tingkatAct = "iojsio";
+    // Your state change code goes here
+  });
+}
+      
     }
   }
 
   void uploadTingkat() {
-    if (DateFormat.jm().format(DateTime.now()) == "11:58 AM") {
+     if (DateFormat.jm().format(DateTime.now()) == "11:58 PM") {
       FirebaseFirestore.instance
           .collection("akun")
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -261,8 +284,10 @@ class _CatatanHarianState extends State<CatatanHarian> {
                       ),
                       TextButton(
                           onPressed: click = () async {
-                            await hitungAktivitas(kaloriHariIni);
+                             hitungAktivitas(kaloriHariIni);
                             uploadTingkat();
+
+                            print(DateFormat.jm().format(DateTime.now()));
 
                             print(tingkatAct);
                           },
