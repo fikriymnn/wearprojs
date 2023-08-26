@@ -291,14 +291,7 @@ class _CatatanHarianState extends State<CatatanHarian> {
 
                             print(tingkatAct);
                           },
-                          child: Text(
-                            "Hitung",
-                            style: GoogleFonts.roboto(
-                              fontSize: 15,
-                              color: Colors.green,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          )),
+                          child:Container()),
                     ],
                   );
                 }),

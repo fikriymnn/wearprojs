@@ -268,66 +268,66 @@ class _EditDataScreensState extends State<EditDataScreens> {
               SizedBox(
                 height: 30,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 0),
-                child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Bagaimana Tingkat Aktivitas Anda?",
-                        style: GoogleFonts.roboto(
-                          textStyle: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: _buildSelectorAktivitas(
-                          name: "Jarang Sekali", subtitle: ""),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Expanded(
-                      child: _buildSelectorAktivitas(
-                          name: "Sedikit Aktif", subtitle: ""),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child:
-                          _buildSelectorAktivitas(name: "Aktif", subtitle: ""),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Expanded(
-                      child: _buildSelectorAktivitas(
-                          name: "Sangat Aktif", subtitle: ""),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 0),
+              //   child: Container(
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Text(
+              //           "Bagaimana Tingkat Aktivitas Anda?",
+              //           style: GoogleFonts.roboto(
+              //             textStyle: TextStyle(
+              //                 fontSize: 20, fontWeight: FontWeight.bold),
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Container(
+              //   child: Row(
+              //     children: [
+              //       Expanded(
+              //         child: _buildSelectorAktivitas(
+              //             name: "Jarang Sekali", subtitle: ""),
+              //       ),
+              //       SizedBox(
+              //         width: 15,
+              //       ),
+              //       Expanded(
+              //         child: _buildSelectorAktivitas(
+              //             name: "Sedikit Aktif", subtitle: ""),
+              //       )
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 15,
+              // ),
+              // Container(
+              //   child: Row(
+              //     children: [
+              //       Expanded(
+              //         child:
+              //             _buildSelectorAktivitas(name: "Aktif", subtitle: ""),
+              //       ),
+              //       SizedBox(
+              //         width: 15,
+              //       ),
+              //       Expanded(
+              //         child: _buildSelectorAktivitas(
+              //             name: "Sangat Aktif", subtitle: ""),
+              //       )
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 30,
+              // ),
               Padding(
                 padding: const EdgeInsets.only(top: 0),
                 child: Container(
