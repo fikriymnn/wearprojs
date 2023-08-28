@@ -230,30 +230,67 @@ class _MakananSehatScreensState extends State<MakananSehatScreens> {
               child: Column(
                 children: [
                   Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Kalori di butuhkan : ",
-                          style: GoogleFonts.roboto(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Flexible(
-                          child: Text(
-                            "${kaloriHariIni.toStringAsFixed(0)}",
-                            style: GoogleFonts.roboto(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('akun')
+                            .where('uid', isEqualTo: user!.uid)
+                            .snapshots(),
+                        builder: (context, AsyncSnapshot snapshot) {
+                          if (!snapshot.hasData) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          // if it has data, do your thing:
+                          final doc = snapshot.data.docs;
+                          return ListView.builder(
+                              itemCount: doc.length,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                final heartRate = double.parse(snapshot
+                                    .data.docs[index]['heartRate']
+                                    .toString());
+                                int umur = snapshot.data.docs[index]['myAge'];
+                                var batasHeartRate = 220 - umur;
+                                double Calories =
+                                    snapshot.data.docs[index]['kalori'];
+                                double hasilBmr =
+                                    snapshot.data.docs[index]['hasilBmr'];
+                                print(batasHeartRate);
+
+                                if (heartRate >= batasHeartRate) {
+                                  NotificationService().showNotification(
+                                    title: "Peringatan !!",
+                                    body: "Detah jantung sudah melebihi batas",
+                                  );
+                                }
+
+                                return Column(
+                                  children: [
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "Kalori : ",
+                                            style: GoogleFonts.roboto(
+                                              color: Colors.black,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          Text(
+                                            Calories.toStringAsFixed(2),
+                                            style: GoogleFonts.roboto(
+                                              color: Colors.black,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              });
+                        }),
                   ),
                   SizedBox(
                     height: 10,
